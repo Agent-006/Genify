@@ -4,8 +4,6 @@
 
 @import "tw-animate-css";
 
-/*---break--- */
-
 @custom-variant dark (&:is(.dark *));
 @source "../node_modules/@uploadthing/react/dist";
 /** <-- depends on your project structure */
@@ -21,76 +19,75 @@ body {
   box-sizing: border-box;
 }
 
-:root {
-  /* Name: custom color palette
-    Author: Ilias Ism
-    URL: https://gradient.page
-  */
+@layer base {
+  :root {
+    --gradient: linear-gradient(to top left, #1FA2FF, #12D8FA, #A6FFCB);
 
-  /* CSS: .bg-gradient { background: var(--gradient) } */
-  --gradient: linear-gradient(to top left, #0052D4, #4364F7, #6FB1FC);
+    --background: 218 65% 4.48%;
+    --foreground: 218 10% 97.8%;
 
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
+    --muted: 218 50% 16.8%;
+    --muted-foreground: 218 10% 55.6%;
 
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.129 0.042 264.695);
+    --popover: 218 45% 7.280000000000001%;
+    --popover-foreground: 218 10% 97.8%;
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+    --card: 218 45% 7.280000000000001%;
+    --card-foreground: 218 10% 97.8%;
 
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
+    --border: 218 50% 16.8%;
+    --input: 218 50% 16.8%;
 
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
+    --primary: 218 100% 56%;
+    --primary-foreground: 218 10% 5.6000000000000005%;
 
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
+    --secondary: 218 50% 16.8%;
+    --secondary-foreground: 218 10% 97.8%;
 
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+    --accent: 218 50% 16.8%;
+    --accent-foreground: 218 10% 97.8%;
 
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: 230 10% 97.1%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 218 10% 97.8%;
 
-  --ring: oklch(0.704 0.04 256.788);
+    --ring: 218 100% 56%;
+  }
 
-  --radius: 0.625rem;
 
-  --background: oklch(1 0 0);
+  .dark {
+    --background: 218 65% 4.48%;
+    --foreground: 218 10% 97.8%;
 
-  --foreground: oklch(0.129 0.042 264.695);
+    --muted: 218 50% 16.8%;
+    --muted-foreground: 218 10% 55.6%;
 
-  --chart-1: oklch(0.646 0.222 41.116);
+    --popover: 218 45% 7.280000000000001%;
+    --popover-foreground: 218 10% 97.8%;
 
-  --chart-2: oklch(0.6 0.118 184.704);
+    --card: 218 45% 7.280000000000001%;
+    --card-foreground: 218 10% 97.8%;
 
-  --chart-3: oklch(0.398 0.07 227.392);
+    --border: 218 50% 16.8%;
+    --input: 218 50% 16.8%;
 
-  --chart-4: oklch(0.828 0.189 84.429);
+    --primary: 218 100% 56%;
+    --primary-foreground: 218 10% 5.6000000000000005%;
 
-  --chart-5: oklch(0.769 0.188 70.08);
+    --secondary: 218 50% 16.8%;
+    --secondary-foreground: 218 10% 97.8%;
 
-  --sidebar: oklch(0.984 0.003 247.858);
+    --accent: 218 50% 16.8%;
+    --accent-foreground: 218 10% 97.8%;
 
-  --sidebar-foreground: oklch(0.129 0.042 264.695);
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 218 10% 97.8%;
 
-  --sidebar-primary: oklch(0.208 0.042 265.755);
-
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-
-  --sidebar-accent: oklch(0.968 0.007 247.896);
-
-  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
-
-  --sidebar-border: oklch(0.929 0.013 255.508);
-
-  --sidebar-ring: oklch(0.704 0.04 256.788);
+    --ring: 218 100% 56%;
+  }
 }
 
 /*---break--- */
-
+/* 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -130,7 +127,6 @@ body {
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
 
-  /*---break--- */
   @keyframes accordion-down {
     from {
       height: 0;
@@ -141,7 +137,6 @@ body {
     }
   }
 
-  /*---break--- */
   @keyframes accordion-up {
     from {
       height: var(--radix-accordion-content-height);
@@ -151,52 +146,4 @@ body {
       height: 0;
     }
   }
-}
-
-/*---break--- */
-
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
-}
-
-/*---break--- */
-
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
-}
+} */
