@@ -6,7 +6,7 @@ import React from "react";
 
 const Navigation = () => {
     return (
-        <div className="p-4 flex items-center justify-between border-muted dark:border-[hsl(var(muted-foreground))] bg-white dark:bg-[hsl(var(--background))] z-20">
+        <div className="p-4 flex items-center justify-between border-muted dark:border-[hsl(var(muted-foreground))] bg-white dark:bg-[hsl(var(--background))] relative">
             <aside className="flex items-center gap-2">
                 <Image
                     src={"/assets/genify-logo.png"}
@@ -19,7 +19,7 @@ const Navigation = () => {
                     Genify.
                 </span>
             </aside>
-            <nav className="hidden md:block absolute left-[50%] top-[50%] transform translate-x-[-50%] translate-y-[-50%]  bg-white dark:bg-[hsl(var(--background))] rounded-md shadow-md p-4 z-10">
+            <nav className="hidden md:block absolute left-[50%] top-[50%] transform translate-x-[-50%] translate-y-[-50%]">
                 <ul className="flex items-center justify-center gap-8">
                     <Link
                         href={"#"}
