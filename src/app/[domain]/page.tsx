@@ -1,11 +1,11 @@
 import React from "react";
 
-const AuthLayout = ({ children }: { children: React.ReactNode }) => {
+const Page = () => {
     return (
         <div className="h-full flex items-center justify-center bg-[hsl(var(--background))]">
-            {children}
+            Domain
         </div>
     );
 };
 
-export default AuthLayout;
+export default Page;

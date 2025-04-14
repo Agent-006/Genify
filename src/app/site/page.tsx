@@ -70,7 +70,7 @@ export default function Home() {
                                 >
                                     {card.title}
                                 </CardTitle>
-                                <CardDescription>
+                                <CardDescription className="text-[hsl(var(--muted-foreground))]">
                                     {card.description}
                                 </CardDescription>
                             </CardHeader>
