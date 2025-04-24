@@ -100,7 +100,7 @@ export default function Home() {
                                         "w-full text-center bg-[hsl(var(--primary))] p-2 rounded-md",
                                         {
                                             "!bg-[hsl(var(--muted-foreground))]":
-                                                card.title === "Enterprise",
+                                                card.title !== "Enterprise",
                                         }
                                     )}
                                 >
