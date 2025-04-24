@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider     = "mysql"
-  url          = env("DATABASE_URL")
+  url          = env("LOCAL_DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -23,19 +23,18 @@ enum Role {
 }
 
 model User {
-  id            String          @id @default(uuid())
-  name          String
-  avatarUrl     String          @db.Text
-  email         String          @unique
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  role          Role            @default(SUBACCOUNT_USER)
-  agencyId      String?
-  Agency        Agency          @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-  Permissions   Permissions[]
-  Tickets       Tickets[]
+  id           String         @id @default(uuid())
+  name         String
+  avatarUrl    String         @db.Text
+  email        String         @unique
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  role         Role           @default(SUBACCOUNT_USER)
+  agencyId     String?
+  Agency       Agency?        @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  Permissions  Permissions[]
+  Tickets      Tickets[]
   Notification Notification[]
-
   @@index([agencyId])
 }
 
@@ -117,6 +116,8 @@ model Tags {
   subAccountId String
 
   SubAccount SubAccount @relation(fields: [subAccountId], references: [id], onDelete: Cascade)
+  Tickets    Tickets?   @relation(fields: [ticketsId], references: [id])
+  ticketsId  String?
 
   @@index([subAccountId])
 }
@@ -186,6 +187,34 @@ model Trigger {
   @@index([subAccountId])
 }
 
+model Automation {
+  id                 String               @id @default(uuid())
+  name               String
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  triggerId          String?
+  published          Boolean              @default(false)
+  Trigger            Trigger?             @relation(fields: [triggerId], references: [id], onDelete: Cascade)
+  subAccountId       String
+  SubAccount         SubAccount           @relation(fields: [subAccountId], references: [id], onDelete: Cascade)
+  Action             Action[]
+  AutomationInstance AutomationInstance[]
+
+  @@index([subAccountId])
+  @@index([triggerId])
+}
+
+model AutomationInstance {
+  id           String     @id @default(uuid())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  automationId String
+  Automation   Automation @relation(fields: [automationId], references: [id], onDelete: Cascade)
+  active       Boolean    @default(true)
+
+  @@index([automationId])
+}
+
 enum ActionType {
   CREATE_CONTACT
 }
@@ -213,34 +242,9 @@ model Contact {
   subAccountId String
 
   SubAccount SubAccount @relation(fields: [subAccountId], references: [id], onDelete: Cascade)
-}
-
-model Automation {
-  id                 String               @id @default(uuid())
-  name               String
-  createdAt          DateTime             @default(now())
-  updatedAt          DateTime             @updatedAt
-  triggerId          String?
-  published          Boolean              @default(false)
-  Trigger            Trigger?             @relation(fields: [triggerId], references: [id], onDelete: Cascade)
-  subAccountId       String
-  SubAccount         SubAccount           @relation(fields: [subAccountId], references: [id], onDelete: Cascade)
-  Action             Action[]
-  AutomationInstance AutomationInstance[]
+  Tickets    Tickets[]
 
   @@index([subAccountId])
-  @@index([triggerId])
-}
-
-model AutomationInstance {
-  id           String     @id @default(uuid())
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  automationId String
-  Automation   Automation @relation(fields: [automationId], references: [id], onDelete: Cascade)
-  active       Boolean    @default(true)
-
-  @@index([automationId])
 }
 
 model Media {
@@ -290,19 +294,6 @@ model FunnelPages {
   @@index([funnelId])
 }
 
-model AgencySidebarOption {
-  id        String   @id @default(uuid())
-  name      String   @default("Menu")
-  link      String   @default("#")
-  icon      Icon     @default(info)
-  agencyId  String
-  Agency    Agency?  @relation(fields: [agencyId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([agencyId])
-}
-
 model ClassName {
   id         String   @id @default(uuid())
   name       String
@@ -314,6 +305,24 @@ model ClassName {
   Funnels    Funnels  @relation(fields: [funnelId], references: [id], onDelete: Cascade)
 
   @@index([funnelId])
+}
+
+//FIXME: check if this is needed
+enum Icon {
+  info
+}
+
+model AgencySidebarOption {
+  id        String   @id @default(uuid())
+  name      String   @default("Menu")
+  link      String   @default("#")
+  icon      Icon     @default(info)
+  agencyId  String
+  Agency    Agency?  @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([agencyId])
 }
 
 model SubAccountSidebarOption {
@@ -333,6 +342,17 @@ enum InvitationStatus {
   ACCEPTED
   REVOKED
   PENDING
+}
+
+model Invitation {
+  id       String           @id @default(uuid())
+  email    String           @unique
+  agencyId String
+  Agency   Agency           @relation(fields: [agencyId], references: [id], onDelete: Cascade)
+  status   InvitationStatus @default(PENDING)
+  role     Role             @default(SUBACCOUNT_USER)
+
+  @@index([agencyId])
 }
 
 model Notification {
