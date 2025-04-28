@@ -6,7 +6,7 @@ import React from "react";
 
 const Navigation = () => {
     return (
-        <div className="p-4 flex items-center justify-between border-muted dark:border-[hsl(var(muted-foreground))] bg-white dark:bg-[hsl(var(--background))] fixed top-0 left-0 right-0 z-20">
+        <div className="p-4 flex items-center justify-between border-muted dark:border-[hsl(var(muted-foreground))] bg-white dark:bg-transparent fixed top-0 left-0 right-0 z-20">
             <aside className="flex items-center gap-2">
                 <Image
                     src={"/assets/genify-logo.png"}
