@@ -12,7 +12,14 @@ import {
     CardHeader,
     CardTitle,
 } from "../ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "../ui/form";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -70,7 +77,7 @@ const AgencyDetails = ({ data }: Props) => {
 
     return (
         <AlertDialog>
-            <Card className="w-full">
+            <Card className="w-full bg-[hsl(var(--primary-foreground))] border-2 border-[hsl(var(--muted))] rounded-lg shadow-md">
                 <CardHeader>
                     <CardTitle>Agency Information</CardTitle>
                     <CardDescription>
@@ -92,13 +99,19 @@ const AgencyDetails = ({ data }: Props) => {
                                     <FormItem>
                                         <FormLabel>Agency Logo</FormLabel>
                                         <FormControl>
-                                            <FileUpload>
-
-                                            </FileUpload>
+                                            <FileUpload
+                                                apiEndpoint="agencyLogo"
+                                                onChange={field.onChange}
+                                                value={field.value}
+                                            />
                                         </FormControl>
+                                        <FormMessage />
                                     </FormItem>
                                 )}
-                            ></FormField>
+                            />
+                            <div className="flex md:flex-row gap-4">
+                                
+                            </div>
                         </form>
                     </Form>
                 </CardContent>

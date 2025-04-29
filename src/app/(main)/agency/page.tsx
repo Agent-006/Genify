@@ -53,8 +53,8 @@ const Page = async ({
     const authUser = await currentUser();
 
     return (
-        <div className="flex justify-center items-center bg-[hsl(var(--background))] h-full w-full">
-            <div className="max-w-[850px] border-[1px] p-4 rounded-xl">
+        <div className="flex justify-center items-center gap-2 bg-[hsl(var(--background))]">
+            <div className="flex flex-col gap-6 max-w-[850px] border-[1px] p-4 bg-[hsl(var(--card))] border-[hsl(var(--muted))] rounded-lg shadow-md">
                 <h1 className="text-4xl">Create An Agency</h1>
                 <AgencyDetails
                     data={{
