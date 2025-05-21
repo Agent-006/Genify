@@ -3,7 +3,6 @@
 import { Agency } from "@/generated/prisma/schema.prisma";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Toaster } from "../ui/sonner";
 import {
     AlertDialog,
     AlertDialogAction,
@@ -39,11 +38,14 @@ import { Input } from "../ui/input";
 import { Switch } from "../ui/switch";
 import { type } from "../../generated/prisma/schema.prisma/index";
 import {
+    deleteAgency,
+    initUser,
     saveActivityLogsNotification,
     updateAgencyDetails,
 } from "@/lib/queries";
 import { Button } from "../ui/button";
 import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 type Props = {
     data?: Partial<Agency>;
@@ -67,6 +69,7 @@ const FormSchema = z.object({
 const AgencyDetails = ({ data }: Props) => {
     const router = useRouter();
     const [deletingAgency, setDeletingAgency] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const form = useForm<z.infer<typeof FormSchema>>({
         mode: "onChange",
@@ -93,9 +96,77 @@ const AgencyDetails = ({ data }: Props) => {
         }
     }, [data]);
 
-    const handleSubmit = async () => {};
+    const handleSubmit = async (values: z.infer<typeof FormSchema>) => {
+        try {
+            let newUserData;
+            let customerId;
 
-    const handleDeleteAgency = async () => {};
+            if (data?.id) {
+                const bodyData = {
+                    email: values.companyEmail,
+                    name: values.name,
+                    shipping: {
+                        address: {
+                            city: values.city,
+                            country: values.country,
+                            line1: values.address,
+                            postal_code: values.zipCode,
+                            state: values.zipCode,
+                        },
+                        name: values.name,
+                    },
+                    address: {
+                        city: values.city,
+                        country: values.country,
+                        line1: values.address,
+                        postal_code: values.zipCode,
+                        state: values.zipCode,
+                    },
+                };
+
+                newUserData = await initUser({
+                    role: "AGENCY_OWNER",
+                });
+                //TODO: custId
+                if(!data?.customerId) {
+                    const response = await upsertAgency()
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            toast("Oppse!", {
+                description: "could not update agency, please try again later",
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleDeleteAgency = async () => {
+        if (!data?.id) return;
+        setDeletingAgency(true);
+
+        //TODO: discontinue the subscription
+
+        try {
+            const response = await deleteAgency(data.id);
+            console.log(response);
+            if (response) {
+                toast("Deleted Agency Successfully", {
+                    description:
+                        "All related sub-accounts will also be deleted",
+                });
+                router.refresh();
+            }
+        } catch (error) {
+            console.log(error);
+            toast("Oppse!", {
+                description: "could not delete agency, please try again later",
+            });
+        } finally {
+            setDeletingAgency(false);
+        }
+    };
 
     return (
         <AlertDialog>
